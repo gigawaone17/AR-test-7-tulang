@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f6f3ee" />
+    <title>Marker AR QR</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body class="qr-page">
+    <main class="qr-shell">
+      <section class="qr-panel">
+        <div class="brand-row">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span class="brand-name">Marker AR</span>
+        </div>
+        <h1>Scan to open AR</h1>
+        <canvas id="qrCanvas" width="256" height="256" aria-label="QR code"></canvas>
+        <p id="qrUrl"></p>
+        <a class="primary-button" href="./index.html">Open AR</a>
+      </section>
+    </main>
+    <script src="./qr.js"></script>
+    <script>
+      const target = new URL('./index.html', window.location.href).href;
+      document.getElementById('qrUrl').textContent = target;
+      drawQrCode(document.getElementById('qrCanvas'), target);
+    </script>
+  </body>
+</html>

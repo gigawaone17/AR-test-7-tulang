@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+  <meta name="theme-color" content="#111414" />
+  <title>Marker AR Model Viewer</title>
+  <link rel="stylesheet" href="./styles.css" />
+  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.4.5/aframe/build/aframe-ar.min.js"></script>
+  <script src="./components.js"></script>
+</head>
+
+<body>
+  <main class="app-shell">
+    <section id="permissionPanel" class="permission-panel" aria-live="polite">
+      <div class="brand-row">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-name">Marker AR</span>
+      </div>
+      <h1>Place your Blender model in the room.</h1>
+      <p id="permissionMessage">Camera access is required for marker tracking.</p>
+      <div class="action-row">
+        <button id="startButton" class="primary-button" type="button">
+          <span aria-hidden="true">&#9635;</span>
+          Start AR
+        </button>
+        <a class="secondary-button" href="./qr.html">QR</a>
+      </div>
+    </section>
+
+    <section id="arStage" class="ar-stage" aria-label="AR camera view">
+      <div class="top-bar">
+        <div class="status-pill" id="trackingStatus">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span>Find marker</span>
+        </div>
+        <button id="resetButton" class="icon-button" type="button" aria-label="Reset model transform" title="Reset">
+          &#8634;
+        </button>
+      </div>
+
+      <div id="modelNotice" class="model-notice" hidden>
+        Add <code>assets/models/dinoV6.glb</code>
+      </div>
+    </section>
+
+    <template id="sceneTemplate">
+      <a-scene id="scene" embedded vr-mode-ui="enabled: false"
+        renderer="antialias: true; alpha: true; colorManagement: true"
+        arjs="sourceType: webcam; trackingMethod: best; debugUIEnabled: false;" loading-screen="enabled: false"
+        gesture-detector>
+        <a-assets timeout="10000">
+          <a-asset-item id="blenderModel" src="./assets/models/dinoV6.glb"></a-asset-item>
+        </a-assets>
+
+        <a-marker id="marker" type="pattern" url="./assets/models/pattern-dino-bone.patt"
+          raycaster="objects: .interactive" emitevents="true" cursor="rayOrigin: mouse">
+
+          <a-entity id="model" class="interactive" gltf-model="#blenderModel" position="0 0 0" rotation="0 0 0"
+            scale="0.55 0.55 0.55" shadow="receive: true; cast: true" gesture-handler></a-entity>
+        </a-marker>
+
+        <a-entity camera></a-entity>
+      </a-scene>
+    </template>
+  </main>
+
+  <script src="./app.js"></script>
+</body>
+
+</html>
